@@ -189,4 +189,47 @@ data/validated_full.csv
 data/validated_incremental.csv
 
 Each dataset is fully cleaned, validated, and ready for warehouse integration.
->>>>>>> 8f2db5cb00e1f31a3e9541ab36e47492f23bbcbd
+
+## Load & Verification
+
+### Format Used
+I used **SQLite** as the load format because it’s lightweight, easy to use, and stores data locally in a `.db` file. This made it convenient to verify my load and preview results directly from Python without needing an external server.
+
+---
+
+### Verification Code Snippet
+```python
+import sqlite3
+import pandas as pd
+
+# Connect to the SQLite database
+conn = sqlite3.connect('loaded/full_data.db')
+
+# Verify data in one of the tables
+preview = pd.read_sql('SELECT * FROM full_data LIMIT 5', conn)
+print(preview.head())
+
+# Count total rows for verification
+count = pd.read_sql('SELECT COUNT(*) AS total_records FROM full_data', conn)
+print(count)
+conn.close()
+
+Issues Faced & How I Solved Them
+Issue 1:
+Database not saving properly
+Cause:
+The loaded/ directory didn’t exist
+Solution:
+Created the folder manually using os.makedirs('loaded', exist_ok=True)
+Issue 2:
+Git kept pushing all files
+Cause:
+No .gitignore configured
+Solution
+Added unwanted folders like /data, /transformed, and /loaded/*.db to .gitignore
+Issue 3:
+Verification error
+Cause:
+Table name mismatch
+Solution:
+Ensured consistent naming between the CSV file and SQL table (full_data)
