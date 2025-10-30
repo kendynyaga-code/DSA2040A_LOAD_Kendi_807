@@ -1,0 +1,14 @@
+# Ignore temporary and auto-generated files
+.ipynb_checkpoints/
+__pycache__/
+*.tmp
+*.zip
+
+# Ignore redundant datasets
+data/validated_data.csv
+data/validated_incremental_data.csv
+data/*.bak
+
+# Ignore system files
+.DS_Store
+Thumbs.db
